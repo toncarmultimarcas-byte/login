@@ -1,10 +1,12 @@
 """
-Script Python para Configurar CRM AutoElite no Supabase
+Script Python para Verificar CRM AutoElite no Supabase
 
 Este script:
 1. Conecta ao Supabase
-2. Cria as tabelas do CRM
-3. Valida a criação
+2. Verifica se as tabelas existem
+3. Testa operações básicas
+
+IMPORTANTE: Execute primeiro o SQL_CRIACAO_TABELAS.sql no Supabase SQL Editor
 
 Instalação:
     pip install supabase
@@ -14,71 +16,15 @@ Uso:
 """
 
 import os
-from pathlib import Path
 from supabase import create_client, Client
 
 # ==========================================
 # CONFIGURAÇÃO
 # ==========================================
 
-# Suas credenciais do Supabase (substitua pelos seus valores)
-SUPABASE_URL = "https://osofymauklsxrsphojjm.supabase.co"
-SUPABASE_KEY = "sb_publishable_N-IapnaxpweqdBQFqNLMkg_ukxPspvo"
-
-# ==========================================
-# SCRIPT SQL PARA CRIAR TABELAS
-# ==========================================
-
-SQL_SCRIPT = """
--- Tabela de Clientes
-CREATE TABLE IF NOT EXISTS clientes (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  nome TEXT NOT NULL,
-  email TEXT NOT NULL,
-  telefone TEXT,
-  cpf TEXT UNIQUE,
-  faixa_preco TEXT,
-  modelo_interesse TEXT,
-  data_nascimento DATE,
-  endereco TEXT,
-  observacoes TEXT,
-  ativo BOOLEAN DEFAULT true,
-  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tabela de Notificações de Interesse
-CREATE TABLE IF NOT EXISTS notificacoes_interesse (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  cliente_id UUID NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
-  veiculo_id UUID,
-  modelo TEXT NOT NULL,
-  faixa_preco TEXT,
-  data_notificacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  enviado BOOLEAN DEFAULT false,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tabela de E-mails de Aniversário
-CREATE TABLE IF NOT EXISTS emails_aniversario (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  cliente_id UUID NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
-  ano INT NOT NULL,
-  enviado BOOLEAN DEFAULT false,
-  data_envio TIMESTAMP,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Índices para melhor performance
-CREATE INDEX IF NOT EXISTS idx_clientes_email ON clientes(email);
-CREATE INDEX IF NOT EXISTS idx_clientes_cpf ON clientes(cpf);
-CREATE INDEX IF NOT EXISTS idx_clientes_data_nascimento ON clientes(data_nascimento);
-CREATE INDEX IF NOT EXISTS idx_clientes_modelo_interesse ON clientes(modelo_interesse);
-CREATE INDEX IF NOT EXISTS idx_notificacoes_cliente ON notificacoes_interesse(cliente_id);
-CREATE INDEX IF NOT EXISTS idx_emails_aniversario_cliente ON emails_aniversario(cliente_id);
-"""
+# Suas credenciais do Supabase
+SUPABASE_URL = os.getenv("SUPABASE_URL", "https://osofymauklsxrsphojjm.supabase.co")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "sb_publishable_N-IapnaxpweqdBQFqNLMkg_ukxPspvo")
 
 # ==========================================
 # FUNÇÕES
@@ -94,33 +40,6 @@ def conectar_supabase() -> Client:
     except Exception as e:
         print(f"❌ Erro ao conectar: {e}")
         return None
-
-
-def executar_script_sql(supabase: Client) -> bool:
-    """Executa o script SQL no Supabase"""
-    print("\n📝 Executando script SQL...")
-    try:
-        # Divide o script em comandos individuais
-        comandos = SQL_SCRIPT.split(';')
-        comandos = [cmd.strip() for cmd in comandos if cmd.strip()]
-        
-        for i, comando in enumerate(comandos, 1):
-            print(f"  Executando comando {i}/{len(comandos)}...", end=" ")
-            try:
-                # Usa RPC ou executa diretamente
-                resultado = supabase.postgrest.query(comando).execute()
-                print("✅")
-            except Exception as e:
-                # Alguns comandos pode falhar se já existem, isso é normal
-                if "already exists" in str(e) or "ERRO" in str(e):
-                    print("⚠️ (Já existe)")
-                else:
-                    print(f"❌ {str(e)[:50]}")
-        
-        return True
-    except Exception as e:
-        print(f"❌ Erro ao executar script: {e}")
-        return False
 
 
 def verificar_tabelas(supabase: Client) -> bool:
@@ -199,7 +118,7 @@ def exibir_status(sucesso: bool):
     """Exibe status final da configuração"""
     print("\n" + "="*50)
     if sucesso:
-        print("✅ CONFIGURAÇÃO CONCLUÍDA COM SUCESSO!")
+        print("✅ VERIFICAÇÃO CONCLUÍDA COM SUCESSO!")
         print("\nPróximos passos:")
         print("1. Abra sua aplicação React")
         print("2. Execute: npm run dev")
@@ -208,11 +127,11 @@ def exibir_status(sucesso: bool):
         print("5. Acesse: /aniversariantes")
         print("\n🎉 CRM AutoElite está pronto para usar!")
     else:
-        print("❌ Houve problemas na configuração.")
+        print("❌ Houve problemas na verificação.")
         print("\nVerifique:")
-        print("1. Suas credenciais do Supabase")
-        print("2. Conexão com internet")
-        print("3. Se Supabase está online")
+        print("1. Execute SQL_CRIACAO_TABELAS.sql no Supabase SQL Editor")
+        print("2. Suas credenciais do Supabase")
+        print("3. Conexão com internet")
     print("="*50)
 
 
@@ -222,7 +141,8 @@ def exibir_status(sucesso: bool):
 
 def main():
     """Função principal"""
-    print("🚀 Setup CRM AutoElite - Supabase\n")
+    print("🚀 Verificação CRM AutoElite - Supabase\n")
+    print("⚠️  Execute primeiro: SQL_CRIACAO_TABELAS.sql no Supabase SQL Editor\n")
     
     # Validar credenciais
     if not SUPABASE_URL or not SUPABASE_KEY:
@@ -236,19 +156,17 @@ def main():
         exibir_status(False)
         return False
     
-    # Executar script
-    if not executar_script_sql(supabase):
-        exibir_status(False)
-        return False
-    
     # Verificar
     if not verificar_tabelas(supabase):
+        print("\n⚠️  As tabelas não existem. Execute SQL_CRIACAO_TABELAS.sql primeiro!")
         exibir_status(False)
         return False
     
     # Testar
     if not testar_operacoes(supabase):
-        print("⚠️ Operações de teste tiveram problemas, mas tabelas foram criadas")
+        print("⚠️ Operações de teste tiveram problemas")
+        exibir_status(False)
+        return False
     
     exibir_status(True)
     return True
