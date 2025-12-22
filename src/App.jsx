@@ -8,6 +8,8 @@ import { DetalheVeiculo } from './pages/DetalheVeiculo';
 import { FormEditarVeiculo } from './pages/FormEditarVeiculo';
 import { ListaClientes } from './pages/ListaClientes';
 import { FormCliente } from './pages/FormCliente';
+import { ListaNotificacoes } from './pages/ListaNotificacoes';
+import { Aniversariantes } from './pages/Aniversariantes';
 import { RotaProtegida } from './components/RotaProtegida';
 import { Layout } from './components/Layout';
 import './App.css';
@@ -79,6 +81,22 @@ function App() {
           <RotaProtegida>
             <Layout>
               <FormCliente />
+            </Layout>
+          </RotaProtegida>
+        } />
+
+        <Route path="/notificacoes" element={
+          <RotaProtegida>
+            <Layout>
+              <ListaNotificacoes />
+            </Layout>
+          </RotaProtegida>
+        } />
+
+        <Route path="/aniversariantes" element={
+          <RotaProtegida>
+            <Layout>
+              <Aniversariantes />
             </Layout>
           </RotaProtegida>
         } />

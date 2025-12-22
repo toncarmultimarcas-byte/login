@@ -1,48 +1,52 @@
 /* Estilos para Aniversariantes */
 .aniversariantes-container {
   padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--light);
   min-height: 100vh;
 }
 
 .header-section {
-  text-align: center;
-  color: white;
-  margin-bottom: 40px;
+  text-align: left;
+  color: var(--text);
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
 }
 
 .header-section h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  color: var(--primary);
 }
 
 .subtitle {
-  font-size: 1.1rem;
-  margin: 10px 0 0 0;
-  opacity: 0.9;
+  font-size: 1rem;
+  margin: 5px 0 0 0;
+  color: var(--text-light);
 }
 
 .aniversariantes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .cliente-card {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
   overflow: hidden;
 }
 
 .cliente-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
 }
 
 .cliente-header {
@@ -50,7 +54,7 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 15px;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 15px;
 }
 
@@ -60,20 +64,20 @@
 
 .cliente-nome {
   margin: 0;
-  font-size: 1.3rem;
-  color: #333;
+  font-size: 1.2rem;
+  color: var(--primary);
   font-weight: 600;
 }
 
 .cliente-email {
   margin: 5px 0 3px 0;
-  color: #667eea;
-  font-size: 0.95rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
 }
 
 .cliente-telefone {
   margin: 3px 0;
-  color: #666;
+  color: var(--text-light);
   font-size: 0.9rem;
 }
 
@@ -83,29 +87,30 @@
 
 .badge-idade {
   display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--primary);
   color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 6px 12px;
+  border-radius: var(--radius);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .cliente-detalhes {
-  background: #f8f9fa;
+  background: var(--light);
   padding: 12px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   margin-bottom: 15px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
 }
 
 .cliente-detalhes p {
   margin: 5px 0;
-  color: #555;
+  color: var(--text);
 }
 
 .cliente-detalhes strong {
-  color: #333;
+  color: var(--primary);
 }
 
 .cliente-acoes {
@@ -118,48 +123,51 @@
   flex: 1;
   padding: 10px 15px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-email {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--primary);
   color: white;
+  border: 1px solid var(--primary);
 }
 
 .btn-email:hover:not(:disabled) {
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-  transform: scale(1.02);
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .btn-email:disabled {
   background: #ccc;
+  border-color: #ccc;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .btn-visualizar {
-  background: #f0f0f0;
-  color: #333;
-  border: 2px solid #ddd;
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
 .btn-visualizar:hover {
-  background: #e8e8e8;
-  border-color: #bbb;
+  background: var(--light);
+  border-color: var(--text-light);
 }
 
 .vazio {
   text-align: center;
-  color: white;
+  color: var(--text);
   padding: 40px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: white;
+  border-radius: var(--radius);
   max-width: 600px;
   margin: 0 auto;
+  border: 1px solid var(--border);
 }
 
 .vazio p {
@@ -193,12 +201,12 @@
 
 .modal-conteudo {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius);
   width: 90%;
   max-width: 700px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.3s ease;
 }
 
@@ -218,9 +226,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 2px solid #f0f0f0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  border-bottom: 1px solid var(--border);
+  background: white;
+  color: var(--primary);
 }
 
 .modal-header h2 {
@@ -229,19 +237,20 @@
 }
 
 .btn-fechar {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   border: none;
-  color: white;
+  color: var(--text-light);
   font-size: 1.5rem;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-fechar:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--light);
+  color: var(--primary);
 }
 
 .modal-body {
@@ -249,32 +258,32 @@
 }
 
 .email-container {
-  background: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
 .email-header {
   background: white;
   padding: 15px 20px;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid var(--border);
 }
 
 .email-header p {
   margin: 5px 0;
   font-size: 0.95rem;
-  color: #555;
+  color: var(--text);
 }
 
 .email-header strong {
-  color: #333;
+  color: var(--primary);
 }
 
 .email-corpo {
   padding: 20px;
   line-height: 1.6;
-  color: #444;
+  color: var(--text);
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -285,7 +294,7 @@
 
 .modal-footer {
   padding: 20px;
-  border-top: 2px solid #f0f0f0;
+  border-top: 1px solid var(--border);
   display: flex;
   gap: 10px;
   justify-content: flex-end;
@@ -295,21 +304,21 @@
 .btn-fechar-modal {
   padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-enviar-modal {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--primary);
   color: white;
 }
 
 .btn-enviar-modal:hover:not(:disabled) {
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-  transform: scale(1.02);
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .btn-enviar-modal:disabled {
@@ -319,14 +328,14 @@
 }
 
 .btn-fechar-modal {
-  background: #f0f0f0;
-  color: #333;
-  border: 2px solid #ddd;
+  background: white;
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
 .btn-fechar-modal:hover {
-  background: #e8e8e8;
-  border-color: #bbb;
+  background: var(--light);
+  border-color: var(--text-light);
 }
 
 /* Responsivo */

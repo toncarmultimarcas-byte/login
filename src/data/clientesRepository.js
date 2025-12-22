@@ -133,6 +133,20 @@ export const clientesRepository = {
     return data[0];
   },
 
+  // Listar notificações de interesse
+  async listarNotificacoes() {
+    const { data, error } = await supabase
+      .from('notificacoes_interesse')
+      .select(`
+        *,
+        clientes (nome, email, telefone)
+      `)
+      .order('data_notificacao', { ascending: false });
+
+    if (error) throw error;
+    return data;
+  },
+
   // Registrar envio de email de aniversário
   async registrarEmailAniversario(clienteId) {
     const ano = new Date().getFullYear();

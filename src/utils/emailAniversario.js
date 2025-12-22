@@ -98,6 +98,33 @@ export const emailAniversario = {
   },
 
   /**
+   * Buscar aniversariantes do dia (HOJE)
+   */
+  async buscarAniversariantesDoDia() {
+    try {
+      const hoje = new Date();
+      const mes = hoje.getMonth() + 1;
+      const dia = hoje.getDate();
+
+      const { data: clientes, error } = await supabase
+        .from('clientes')
+        .select('*')
+        .eq('ativo', true);
+
+      if (error) throw error;
+
+      return clientes.filter(cliente => {
+        if (!cliente.data_nascimento) return false;
+        const [, mesCli, diaCli] = cliente.data_nascimento.split('-');
+        return parseInt(mesCli) === mes && parseInt(diaCli) === dia;
+      });
+    } catch (error) {
+      console.error('Erro ao buscar aniversariantes do dia:', error);
+      return [];
+    }
+  },
+
+  /**
    * Buscar aniversariantes do mês
    */
   async buscarAniversariantesDoMes() {
