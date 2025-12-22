@@ -1,0 +1,86 @@
+.card-veiculo {
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card-veiculo:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+}
+
+.card-imagem {
+  position: relative;
+  width: 100%;
+  padding-top: 70%;
+  overflow: hidden;
+  background: var(--light);
+  border-bottom: 1px solid var(--border);
+}
+
+.card-imagem img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card-veiculo:hover .card-imagem img {
+  transform: scale(1.05);
+}
+
+.status-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.card-conteudo {
+  padding: 20px;
+}
+
+.card-conteudo h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.card-specs {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 15px;
+}
+
+.card-specs span {
+  padding: 6px 10px;
+  background: var(--light);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.card-preco {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.card-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.card-acoes button {
+  flex: 1;
+  font-size: 12px;
+  padding: 8px;
+}

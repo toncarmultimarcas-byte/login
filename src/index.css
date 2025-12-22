@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #000000;
+  --primary-dark: #1a1a1a;
+  --secondary: #ffffff;
+  --accent: #333333;
+  --danger: #000000;
+  --success: #000000;
+  --warning: #000000;
+  --light: #f4f4f5;
+  --border: #e4e4e7;
+  --text: #18181b;
+  --text-light: #71717a;
+  --radius: 2px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background-color: var(--light);
+  line-height: 1.6;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--light);
+  border-color: var(--text);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background-color: white;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: var(--danger);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 16px;
+}
+
+.btn-block {
+  width: 100%;
+  display: block;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: var(--text-light);
+}
+
+.erro {
+  text-align: center;
+  padding: 40px;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.vazio {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-light);
+}
+
+.vazio p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+}
+
+.status-disponível {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.status-reservado {
+  background-color: white;
+  color: var(--text);
+  border: 1px dashed var(--text);
+}
+
+.status-vendido {
+  background-color: var(--light);
+  color: var(--text-light);
+  border-color: var(--border);
+  text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .btn-lg {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}

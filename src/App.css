@@ -1,0 +1,64 @@
+/* App CSS - Estilos globais do aplicativo */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #000000;
+  --primary-dark: #1a1a1a;
+  --secondary: #ffffff;
+  --accent: #333333;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --light: #f4f4f5;
+  --border: #e4e4e7;
+  --text: #18181b;
+  --text-light: #71717a;
+  --radius: 2px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background-color: #f8fafc;
+  line-height: 1.6;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.btn-outline-dark {
+  background-color: white;
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+.btn-outline-dark:hover:not(:disabled) {
+  background-color: var(--light);
+  border-color: var(--text);
+}
+
+.btn.full-width {
+  width: 100%;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

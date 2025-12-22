@@ -1,0 +1,389 @@
+/* Estilos para Aniversariantes */
+.aniversariantes-container {
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.header-section {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.header-section h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  margin: 10px 0 0 0;
+  opacity: 0.9;
+}
+
+.aniversariantes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cliente-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.cliente-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.cliente-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.cliente-info {
+  flex: 1;
+}
+
+.cliente-nome {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.cliente-email {
+  margin: 5px 0 3px 0;
+  color: #667eea;
+  font-size: 0.95rem;
+}
+
+.cliente-telefone {
+  margin: 3px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.cliente-idade {
+  text-align: center;
+}
+
+.badge-idade {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.cliente-detalhes {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.cliente-detalhes p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.cliente-detalhes strong {
+  color: #333;
+}
+
+.cliente-acoes {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-email,
+.btn-visualizar {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-email {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-email:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transform: scale(1.02);
+}
+
+.btn-email:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-visualizar {
+  background: #f0f0f0;
+  color: #333;
+  border: 2px solid #ddd;
+}
+
+.btn-visualizar:hover {
+  background: #e8e8e8;
+  border-color: #bbb;
+}
+
+.vazio {
+  text-align: center;
+  color: white;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.vazio p {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-conteudo {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.btn-fechar {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-fechar:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.email-container {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.email-header {
+  background: white;
+  padding: 15px 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.email-header p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.email-header strong {
+  color: #333;
+}
+
+.email-corpo {
+  padding: 20px;
+  line-height: 1.6;
+  color: #444;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.email-corpo p {
+  margin: 0 0 10px 0;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 2px solid #f0f0f0;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-enviar-modal,
+.btn-fechar-modal {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-enviar-modal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-enviar-modal:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transform: scale(1.02);
+}
+
+.btn-enviar-modal:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-fechar-modal {
+  background: #f0f0f0;
+  color: #333;
+  border: 2px solid #ddd;
+}
+
+.btn-fechar-modal:hover {
+  background: #e8e8e8;
+  border-color: #bbb;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .aniversariantes-container {
+    padding: 15px;
+  }
+
+  .header-section h1 {
+    font-size: 2rem;
+  }
+
+  .aniversariantes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-conteudo {
+    width: 95%;
+    max-height: 85vh;
+  }
+
+  .cliente-header {
+    flex-direction: column;
+  }
+
+  .cliente-idade {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .cliente-acoes {
+    flex-direction: column;
+  }
+
+  .btn-email,
+  .btn-visualizar {
+    width: 100%;
+  }
+
+  .modal-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .btn-fechar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+}
