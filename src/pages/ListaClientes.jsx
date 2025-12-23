@@ -4,6 +4,8 @@ import { clientesRepository } from '../data/clientesRepository';
 import { Input } from '../components/FormInputs';
 import { ModalConfirmacao } from '../components/ModalConfirmacao';
 import { ToastNotificacao } from '../components/ToastNotificacao';
+import BadgeStatusCliente from '../components/BadgeStatusCliente';
+import GuiaStatusCliente from '../components/GuiaStatusCliente';
 import '../styles/clientes.css';
 
 export const ListaClientes = () => {
@@ -12,6 +14,7 @@ export const ListaClientes = () => {
   const [busca, setBusca] = useState('');
   const [modalDeletar, setModalDeletar] = useState(null);
   const [toast, setToast] = useState(null);
+  const [mostrarGuia, setMostrarGuia] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +57,22 @@ export const ListaClientes = () => {
   return (
     <div className="clientes-container">
       <div className="clientes-header">
-        <h1>CRM - Clientes</h1>
+        <div>
+          <h1>CRM - Clientes</h1>
+          <button 
+            className="btn btn-sm btn-outline-dark"
+            onClick={() => setMostrarGuia(true)}
+            title="Ver guia de status"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            Guia de Status
+          </button>
+        </div>
         <button 
           className="btn btn-primary"
           onClick={() => navigate('/clientes/novo')}
@@ -86,6 +104,7 @@ export const ListaClientes = () => {
             <thead>
               <tr>
                 <th>Nome</th>
+                <th>Status</th>
                 <th>Telefone / WhatsApp</th>
                 <th>Email</th>
                 <th>CPF</th>
@@ -99,6 +118,14 @@ export const ListaClientes = () => {
                     <div className="cliente-nome-lista">{cliente.nome}</div>
                   </td>
                   <td>
+                    <BadgeStatusCliente 
+                      status={cliente.status || 'NOVO'} 
+                      tamanho="pequeno"
+                      clicavel
+                      onClick={() => navigate(`/clientes/${cliente.id}/editar`)}
+                    />
+                  </td>
+                  <td>
                     {cliente.telefone ? (
                       <div className="telefone-container">
                         <span>{cliente.telefone}</span>
@@ -109,14 +136,25 @@ export const ListaClientes = () => {
                           className="btn-whatsapp"
                           title="Conversar no WhatsApp"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                          </svg>
+                          <i className="fab fa-whatsapp"></i>
                         </a>
                       </div>
                     ) : '-'}
                   </td>
-                  <td>{cliente.email || '-'}</td>
+                  <td>
+                    {cliente.email ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span>{cliente.email}</span>
+                        <a 
+                          href={`mailto:${cliente.email}`}
+                          className="btn-email"
+                          title="Enviar Email"
+                        >
+                          <i className="fas fa-envelope"></i>
+                        </a>
+                      </div>
+                    ) : '-'}
+                  </td>
                   <td>{cliente.cpf || '-'}</td>
                   <td>
                     <div className="acoes-cell">
@@ -167,6 +205,11 @@ export const ListaClientes = () => {
           onClose={() => setToast(null)}
         />
       )}
+
+      <GuiaStatusCliente 
+        aberto={mostrarGuia} 
+        onFechar={() => setMostrarGuia(false)}
+      />
     </div>
   );
 };

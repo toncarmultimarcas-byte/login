@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { clientesRepository } from '../data/clientesRepository';
 import { Input, TextArea } from '../components/FormInputs';
 import { ToastNotificacao } from '../components/ToastNotificacao';
+import SeletorStatusCliente from '../components/SeletorStatusCliente';
 import '../styles/form-veiculo.css'; // Reutilizando estilos de form
 
 export const FormCliente = () => {
@@ -15,9 +16,11 @@ export const FormCliente = () => {
     cpf: '',
     faixa_preco: '',
     modelo_interesse: '',
+    marca_interesse: '',
     data_nascimento: '',
     endereco: '',
     observacoes: '',
+    status: 'NOVO',
     ativo: true
   });
   const [carregando, setCarregando] = useState(false);
@@ -76,9 +79,11 @@ export const FormCliente = () => {
             cpf: '',
             faixa_preco: '',
             modelo_interesse: '',
+            marca_interesse: '',
             data_nascimento: '',
             endereco: '',
             observacoes: '',
+            status: 'NOVO',
             ativo: true
           });
         }
@@ -161,6 +166,14 @@ export const FormCliente = () => {
         <div className="form-section">
           <h2>Interesses de Compra</h2>
           
+          <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+            <SeletorStatusCliente
+              valor={formData.status}
+              onChange={(novoStatus) => setFormData(prev => ({ ...prev, status: novoStatus }))}
+              mostrarDescricao={true}
+            />
+          </div>
+          
           <div className="form-row">
             <div className="form-group">
               <Input
@@ -171,7 +184,16 @@ export const FormCliente = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+            <div className="form-group">
+              <Input
+                label="Marca de Interesse"
+                name="marca_interesse"
+                valor={formData.marca_interesse}
+                onChange={handleChange}
+                placeholder="Ex: Volkswagen, Toyota, Chevrolet..."
+              />
+            </div>
+            <div className="form-group">
               <Input
                 label="Modelo de Interesse"
                 name="modelo_interesse"

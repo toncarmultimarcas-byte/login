@@ -1,0 +1,108 @@
+.seletor-status-cliente {
+  width: 100%;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.label-status {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.opcoes-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.opcao-status {
+  position: relative;
+  cursor: pointer;
+}
+
+.opcao-status input[type="radio"] {
+  display: none;
+}
+
+.label-opcao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: white;
+  height: 100%;
+}
+
+.icon-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  transition: color 0.2s ease;
+}
+
+.texto-status {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Active State */
+.opcao-status input[type="radio"]:checked + .label-opcao {
+  border-color: var(--primary);
+  background: var(--light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.opcao-status input[type="radio"]:checked + .label-opcao .icon-status {
+  color: var(--primary);
+}
+
+.opcao-status input[type="radio"]:checked + .label-opcao .texto-status {
+  font-weight: 600;
+}
+
+/* Hover State */
+.opcao-status:hover .label-opcao {
+  border-color: var(--text-light);
+}
+
+.descricao-status {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: var(--light);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.descricao-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.descricao-header strong {
+  font-size: 0.95rem;
+}
+
+.descricao-status p {
+  margin: 0;
+  color: var(--text-light);
+}

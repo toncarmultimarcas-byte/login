@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { veiculosRepository } from '../data/veiculosRepository';
+import { notificacoesRepository } from '../data/notificacoesRepository';
 import { storageFotos } from '../data/storageFotos';
 import { Input, TextArea, Select } from '../components/FormInputs';
 import { Upload } from '../components/Upload';
 import { ToastNotificacao } from '../components/ToastNotificacao';
-import { notificadorInteresse } from '../utils/notificadorInteresse';
 import { STATUS_VEICULO, COMBUSTIVEL, CAMBIO } from '../config/constantes';
 import '../styles/form-veiculo.css';
 
@@ -79,17 +79,16 @@ export const FormNovoVeiculo = () => {
         const uploadedFoto = await storageFotos.upload(fotos[i], veiculo.id, 'galeria');
         await storageFotos.salvarMetadadosFoto(veiculo.id, { ...uploadedFoto, ordem: i + 1 });
       }
-// Verificar clientes interessados
-      const clientesInteressados = await notificadorInteresse.verificarClientesInteressados(veiculo);
-      if (clientesInteressados.length > 0) {
-        // Registrar notificações no banco
-        await notificadorInteresse.registrarNotificacoes(veiculo, clientesInteressados);
-        
-        // Mostrar notificação formatada
-        const notif = notificadorInteresse.formatarNotificacao(veiculo, clientesInteressados);
-        setNotificacao(notif);
-      }
 
+      // Verificar e gerar notificações para clientes interessados
+      const notificacoesGeradas = await notificacoesRepository.verificarClientesMatches(veiculo);
+      
+      if (notificacoesGeradas.length > 0) {
+        setNotificacao({
+          quantidade: notificacoesGeradas.length,
+          mensagem: `Notificações enviadas para ${notificacoesGeradas.length} cliente(s) interessado(s)!`
+        });
+      }
       
       setToast({
         tipo: 'sucesso',
