@@ -1,0 +1,180 @@
+```
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    CRM CLIENTES - REFERENCIA RAPIDA                        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─ ESTRUTURA DE ARQUIVOS ──────────────────────────────────────────────────┐
+│                                                                            │
+│  AutoElite-Painel/                                                         │
+│  ├─ migrations/                                                            │
+│  │  └─ 001_create_customers_table.sql  ← EXECUTAR NO SUPABASE             │
+│  │                                                                         │
+│  ├─ src/                                                                   │
+│  │  ├─ lib/                                                                │
+│  │  │  ├─ supabaseClient.ts      (Cliente)                               │
+│  │  │  └─ tipos.ts               (Types/Enums)                           │
+│  │  │                                                                      │
+│  │  ├─ services/                                                           │
+│  │  │  └─ customersService.ts    (API Supabase)                          │
+│  │  │                                                                      │
+│  │  ├─ hooks/                                                              │
+│  │  │  └─ useCustomers.ts        (State + Real-time)                     │
+│  │  │                                                                      │
+│  │  ├─ components/customers/                                               │
+│  │  │  ├─ StatusBadge.tsx        (Badge colorida)                        │
+│  │  │  ├─ StatusDropdown.tsx     (Dropdown)                              │
+│  │  │  ├─ CustomerRowActions.tsx (Botoes linha)                          │
+│  │  │  └─ CustomersTable.tsx     (Tabela)                                │
+│  │  │                                                                      │
+│  │  └─ pages/                                                              │
+│  │     └─ CustomersPage.tsx      (Pagina principal)                      │
+│  │                                                                         │
+│  ├─ .env.local.example            ← COPIAR E PREENCHER                    │
+│  ├─ SETUP_CLIENTES_CRM.md         (Guia setup)                            │
+│  ├─ DOCUMENTACAO_CRM_CLIENTES.md  (Docs tecnicas)                        │
+│  └─ RESUMO_CRM_CLIENTES.md        (Este arquivo)                         │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ SETUP RAPIDO (5 PASSOS) ────────────────────────────────────────────────┐
+│                                                                            │
+│ 1. npm install @supabase/supabase-js date-fns @heroicons/react           │
+│                                                                            │
+│ 2. Copiar arquivo SQL de migrations/ e executar no Supabase SQL Editor    │
+│                                                                            │
+│ 3. Copiar .env.local.example para .env.local                             │
+│    VITE_SUPABASE_URL=https://seu-projeto.supabase.co                     │
+│    VITE_SUPABASE_ANON_KEY=sua_chave_anonima                              │
+│                                                                            │
+│ 4. No App.jsx: import { CustomersPage } from './pages/CustomersPage'     │
+│                <Route path="/clientes" element={<CustomersPage />} />     │
+│                                                                            │
+│ 5. npm run dev                                                             │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ STATUS PIPELINE ────────────────────────────────────────────────────────┐
+│                                                                            │
+│  NOVO ──→ CURIOSO ──→ INTERESSADO ──→ EM_NEGOCIACAO ──→ COMPROU         │
+│                                            │                              │
+│                                            ├──→ PERDIDO                   │
+│                                            │                              │
+│                                            └──→ SEM_INTERESSE             │
+│                                                                            │
+│  ✓ Ativos: Status nao-terminal + nao arquivado                          │
+│  ✓ Arquivados: Status terminal (COMPROU/PERDIDO/SEM_INTERESSE)          │
+│  ✓ Duracao arquivo: 6 meses                                              │
+│  ✓ Auto desarchiva: Se mudar para status nao-terminal                    │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ CAMPOS DO CLIENTE ──────────────────────────────────────────────────────┐
+│                                                                            │
+│  id                 (UUID) - Identificador unico                          │
+│  name              (TEXT) - Nome *obrigatorio                            │
+│  phone             (TEXT) - Telefone                                      │
+│  email             (TEXT) - Email                                         │
+│  birth_date        (DATE) - Data nascimento                               │
+│  interest_brand    (TEXT) - Marca interesse (Toyota, Honda, etc)         │
+│  interest_model    (TEXT) - Modelo interesse (Corolla, Civic, etc)       │
+│  interest_year_min  (INT) - Ano minimo                                    │
+│  interest_year_max  (INT) - Ano maximo                                    │
+│  interest_notes    (TEXT) - Notas sobre interesse                         │
+│  status (ENUM)           - NOVO|CURIOSO|INTERESSADO|EM_NEGOCIACAO|...   │
+│  status_reason     (TEXT) - Por que mudou status                          │
+│  next_follow_up_at (TS)  - Proxima data follow-up                        │
+│  archived_until    (TS)  - Quando desarchiva automaticamente             │
+│  created_at        (TS)  - Timestamp criacao                             │
+│  updated_at        (TS)  - Timestamp atualizacao                         │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ API CUSTOMERSSERVICE ──────────────────────────────────────────────────┐
+│                                                                            │
+│  fetchActiveCustomers(searchTerm?, statusFilter?)                         │
+│    → Customer[]                                                            │
+│                                                                            │
+│  fetchArchivedCustomers(searchTerm?)                                      │
+│    → Customer[]                                                            │
+│                                                                            │
+│  fetchCustomerById(id)                                                    │
+│    → Customer | null                                                      │
+│                                                                            │
+│  createCustomer(payload)                                                  │
+│    → Customer                                                              │
+│                                                                            │
+│  updateCustomer(id, payload)                                              │
+│    → Customer                                                              │
+│                                                                            │
+│  updateCustomerStatus(id, status, reason?)                                │
+│    → Customer (archived_until auto-atualizado por trigger)               │
+│                                                                            │
+│  updateFollowUpDate(id, date)                                             │
+│    → Customer                                                              │
+│                                                                            │
+│  deleteCustomer(id)                                                       │
+│    → void                                                                  │
+│                                                                            │
+│  subscribeToCustomersChanges(callback)                                    │
+│    → RealtimeChannel (real-time sync)                                     │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ EXEMPLO DE USO ────────────────────────────────────────────────────────┐
+│                                                                            │
+│  // Criar cliente                                                         │
+│  await createCustomer({                                                   │
+│    name: "João Silva",                                                    │
+│    phone: "11999999999",                                                  │
+│    interest_brand: "Toyota",                                              │
+│    interest_model: "Corolla"                                              │
+│  });                                                                       │
+│                                                                            │
+│  // Trocar status (arquivo automático se PERDIDO/COMPROU/SEM_INTERESSE) │
+│  await updateCustomerStatus(                                              │
+│    "uuid-aqui",                                                           │
+│    CustomerStatus.INTERESSADO,                                            │
+│    "Cliente mostrou interesse no Corolla"                                 │
+│  );                                                                        │
+│                                                                            │
+│  // No Hook:                                                              │
+│  const { customers, handleStatusChange, handleFollowUpChange } =          │
+│    useCustomers(false); // false = ativos, true = arquivados             │
+│                                                                            │
+│  // Mudar status via UI                                                   │
+│  <button onClick={() =>                                                   │
+│    handleStatusChange(customer.id, CustomerStatus.COMPROU)               │
+│  }>                                                                        │
+│    Marcar como Comprado                                                   │
+│  </button>                                                                 │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ RLS (SEGURANCA) ───────────────────────────────────────────────────────┐
+│                                                                            │
+│  ✓ SELECT: auth.role() = 'authenticated'                                │
+│  ✓ INSERT: auth.role() = 'authenticated'                                │
+│  ✓ UPDATE: auth.role() = 'authenticated'                                │
+│  ✓ DELETE: auth.role() = 'authenticated'                                │
+│                                                                            │
+│  Cenario single-tenant: Todos os usuarios logados compartilham dados.    │
+│  Para multi-tenant: Adicionar user_id ou account_id e refinar policies. │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+┌─ RECURSOS ADICIONAIS ───────────────────────────────────────────────────┐
+│                                                                            │
+│  📖 SETUP_CLIENTES_CRM.md         Guia passo-a-passo                     │
+│  📖 DOCUMENTACAO_CRM_CLIENTES.md  Docs tecnicas completas                │
+│  📖 RESUMO_CRM_CLIENTES.md        Resumo geral                           │
+│                                                                            │
+│  Icones: @heroicons/react (MagnifyingGlassIcon, ChevronDownIcon, etc)   │
+│  Datas: date-fns com locale pt-BR (formatDistanceToNow)                 │
+│  Estilos: Tailwind CSS (nenhum CSS customizado necessario)              │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  PRONTO PARA PRODUCAO - Todos os arquivos gerados e prontos para usar!   ║
+╚════════════════════════════════════════════════════════════════════════════╝
+```
